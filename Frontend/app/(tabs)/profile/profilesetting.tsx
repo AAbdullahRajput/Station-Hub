@@ -15,6 +15,7 @@ import {
   Feather,
 } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
+import Bottomnav from "@/components/Bottomnav";
 
 export default function ProfileSettingsScreen() {
   const router = useRouter();
@@ -27,68 +28,24 @@ export default function ProfileSettingsScreen() {
   title: "Manage your profile",
   subtitle: "Change profile picture, name, number & mail",
   icon: <Feather name="user" size={20} color="#FF7A45" />,
-  route: "/profile/manageprofile",
+  route: "/(tabs)/profile/manageprofile",
 },
     {
       id: 2,
-      title: "Change Password",
-      subtitle: "Update your password",
-      icon: <Feather name="lock" size={20} color="#FF7A45" />,
-      route: "/profile/changepassword",
-    },
-    {
-      id: 3,
-      title: "Notifications",
-      subtitle: "Stay updated with alerts",
-      icon: (
-        <Ionicons name="notifications-outline" size={20} color="#FF7A45" />
-      ),
-      route: "/profile/notifications",
-    },
-    {
-      id: 4,
       title: "Booking History",
       subtitle: "View past bookings",
       icon: <Feather name="clock" size={20} color="#FF7A45" />,
-      route: "/profile/bookinghistory",
-    },
-    {
-      id: 5,
-      title: "Promo & Rewards",
-      subtitle: "Offers & discounts",
-      icon: <Feather name="gift" size={20} color="#FF7A45" />,
-      route: "/profile/promorewards",
+      route: "/(tabs)/profile/bookinghistory",
     },
   ];
 
   const settingsItems = [
     {
       id: 1,
-      title: "Language",
-      subtitle: "Change app language",
-      icon: <Feather name="globe" size={20} color="#FF7A45" />,
-      route: "/profile/language",
-    },
-    {
-      id: 2,
-      title: "Privacy Policy",
-      subtitle: "Read privacy details",
-      icon: <Feather name="shield" size={20} color="#FF7A45" />,
-      route: "/profile/privacypolicy",
-    },
-    {
-      id: 3,
-      title: "Help & Support",
-      subtitle: "Get help",
-      icon: <Feather name="headphones" size={20} color="#FF7A45" />,
-      route: "/profile/helpsupport",
-    },
-    {
-      id: 4,
-      title: "About App",
-      subtitle: "App info",
-      icon: <Feather name="info" size={20} color="#FF7A45" />,
-      route: "/profile/aboutapp",
+      title: "Settings",
+      subtitle: "App preferences",
+      icon: <Feather name="settings" size={20} color="#FF7A45" />,
+      route: "/(tabs)/profile",
     },
   ];
 
@@ -215,6 +172,8 @@ export default function ProfileSettingsScreen() {
           />
         </TouchableOpacity>
       </ScrollView>
+
+      <Bottomnav />
     </SafeAreaView>
   );
 }

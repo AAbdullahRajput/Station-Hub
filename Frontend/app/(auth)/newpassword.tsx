@@ -72,7 +72,7 @@ export default function CreatePassword() {
         
       </Text>
 
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity style={styles.button} onPress={() => router.push("/login")}>
         <Text style={styles.buttonText}>Change Password</Text>
       </TouchableOpacity>
 

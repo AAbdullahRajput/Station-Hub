@@ -9,53 +9,49 @@ import {
   StatusBar,
   Dimensions,
 } from "react-native";
-import { Ionicons, MaterialIcons, FontAwesome5 } from "@expo/vector-icons";
+
+import { useRouter } from "expo-router";
+import Bottomnav from "@/components/Bottomnav";
+import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
 
 const { width } = Dimensions.get("window");
 
 export default function StationDetail() {
+  const router = useRouter();
+
   return (
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#FDE9E6" />
 
       {/* HEADER */}
       <View style={styles.header}>
-        <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <Text style={styles.time}>9:41</Text>
-          <Ionicons
-            name="arrow-back"
-            size={22}
-            color="#000"
-            style={{ marginLeft: 10 }}
-          />
-        </View>
+        <TouchableOpacity onPress={() => router.back()}>
+          <Ionicons name="arrow-back" size={22} color="#000" />
+        </TouchableOpacity>
 
         <Text style={styles.headerTitle}>Riverside Detailing</Text>
 
         <Ionicons name="information-circle-outline" size={22} color="#000" />
       </View>
 
-      <ScrollView showsVerticalScrollIndicator={false}>
-        {/* CARD 1 */}
+      <ScrollView contentContainerStyle={{ paddingBottom: 120 }}>
+        
+        {/* MAIN CARD */}
         <View style={styles.card}>
           <Image
-            source={require("../../assets/images/riverside.png.png")}
+            source={require("../../../assets/images/riverside.png")}
             style={styles.mainImage}
           />
 
           <Text style={styles.stationTitle}>Riverside Detailing</Text>
 
-          {/* STARS */}
           <View style={styles.row}>
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              {[1, 2, 3, 4, 5].map((i) => (
-                <Ionicons key={i} name="star" size={16} color="#F97316" />
-              ))}
-              <Text style={styles.reviewText}>25</Text>
-            </View>
+            {[1, 2, 3, 4, 5].map((i) => (
+              <Ionicons key={i} name="star" size={16} color="#F97316" />
+            ))}
+            <Text style={{ marginLeft: 6, fontSize: 12 }}>25</Text>
           </View>
 
-          {/* LOCATION */}
           <View style={styles.row}>
             <Ionicons name="location-sharp" size={16} color="gray" />
             <Text style={styles.locationText}>
@@ -75,20 +71,20 @@ export default function StationDetail() {
             and looking its best.
           </Text>
 
-          {/* ICON ROW */}
+          {/* ICONS */}
           <View style={styles.iconRow}>
             <View style={styles.iconBox}>
               <Ionicons name="car" size={18} color="#fff" />
-              <Text style={styles.iconLabel}>Wash</Text>
+              <Text style={styles.iconLabel}>Express Wash</Text>
             </View>
 
             <View style={styles.iconBox}>
-              <Ionicons name="shield-checkmark" size={18} color="#fff" />
-              <Text style={styles.iconLabel}>Detail</Text>
+              <Ionicons name="star" size={18} color="#fff" />
+              <Text style={styles.iconLabel}>Premium</Text>
             </View>
 
             <View style={styles.iconBox}>
-              <MaterialIcons name="event-seat" size={18} color="#fff" />
+              <Ionicons name="water" size={18} color="#fff" />
               <Text style={styles.iconLabel}>Interior</Text>
             </View>
 
@@ -98,25 +94,29 @@ export default function StationDetail() {
             </View>
 
             <View style={styles.iconBox}>
-              <Ionicons name="water" size={18} color="#fff" />
-              <Text style={styles.iconLabel}>Wax</Text>
+              <Ionicons name="shield-checkmark" size={18} color="#fff" />
+              <Text style={styles.iconLabel}>Waxing</Text>
             </View>
           </View>
 
-          {/* 3 IMAGES ROW (IMPORTANT PART YOU ASKED) */}
-          <View style={styles.imageRow}>
+          {/* IMAGE GRID */}
+          <View style={styles.imageGrid}>
             <Image
-              source={require("../../assets/images/pic1.png")}
-              style={styles.smallImg}
+              source={require("../../../assets/images/pic1.png")}
+              style={styles.bigImg}
             />
-            <Image
-              source={require("../../assets/images/pic2.png")}
-              style={styles.smallImg}
-            />
-            <Image
-              source={require("../../assets/images/pic3.png.png")}
-              style={styles.smallImg}
-            />
+
+            <View style={styles.rightColumn}>
+              <Image
+                source={require("../../../assets/images/pic2.png")}
+                style={styles.smallImg}
+              />
+
+              <Image
+                source={require("../../../assets/images/pic3.png")}
+                style={styles.smallImg}
+              />
+            </View>
           </View>
         </View>
 
@@ -124,7 +124,10 @@ export default function StationDetail() {
         <TouchableOpacity style={styles.button}>
           <Text style={styles.buttonText}>Schedule</Text>
         </TouchableOpacity>
+
       </ScrollView>
+
+      <Bottomnav />
     </View>
   );
 }
@@ -136,21 +139,20 @@ const styles = StyleSheet.create({
     backgroundColor: "#FDE9E6",
   },
 
-  header: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    padding: 16,
-    alignItems: "center",
-  },
-
-  time: {
-    fontSize: 14,
-    fontWeight: "600",
-  },
+ header: {
+  flexDirection: "row",
+  justifyContent: "space-between",
+  alignItems: "center",
+  paddingHorizontal: 16,
+  paddingVertical: 10,
+  marginTop: 10, // 👈 only small spacing
+},
 
   headerTitle: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: "bold",
+    flex: 1,
+    textAlign: "center",
   },
 
   card: {
@@ -164,6 +166,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 180,
     borderRadius: 12,
+    resizeMode: "cover",
   },
 
   stationTitle: {
@@ -178,15 +181,10 @@ const styles = StyleSheet.create({
     marginTop: 6,
   },
 
-  reviewText: {
-    marginLeft: 6,
-    fontSize: 12,
-  },
-
   locationText: {
     marginLeft: 6,
-    color: "gray",
     fontSize: 12,
+    color: "gray",
   },
 
   aboutCard: {
@@ -204,9 +202,9 @@ const styles = StyleSheet.create({
 
   aboutText: {
     color: "#fff",
-    fontSize: 14,
-    lineHeight: 20,
-    marginTop: 10,
+    fontSize: 13,
+    lineHeight: 18,
+    marginTop: 8,
   },
 
   iconRow: {
@@ -218,28 +216,42 @@ const styles = StyleSheet.create({
   iconBox: {
     alignItems: "center",
     backgroundColor: "#F97316",
-    padding: 10,
-    borderRadius: 25,
-    width: 60,
+    padding: 8,
+    borderRadius: 20,
+    width: 62,
   },
 
   iconLabel: {
     color: "#fff",
-    fontSize: 10,
+    fontSize: 9,
     marginTop: 4,
     textAlign: "center",
   },
 
-  imageRow: {
+  imageGrid: {
     flexDirection: "row",
-    justifyContent: "space-between",
     marginTop: 15,
+    height: 170,
+  },
+
+  bigImg: {
+    flex: 2,
+    height: "100%",
+    borderRadius: 12,
+    resizeMode: "cover",
+  },
+
+  rightColumn: {
+    flex: 1,
+    marginLeft: 8,
+    justifyContent: "space-between",
   },
 
   smallImg: {
-    width: width / 3.5,
-    height: 70,
-    borderRadius: 10,
+    height: 80,
+    width: "100%",
+    borderRadius: 12,
+    resizeMode: "cover",
   },
 
   button: {

@@ -64,7 +64,7 @@ export default function ResetPassword() {
       </Text>
 
       {/* Send OTP */}
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity style={styles.button} onPress={() => router.push("/otp")}>
         <Text style={styles.buttonText}>Send OTP</Text>
       </TouchableOpacity>
 

@@ -49,7 +49,7 @@ export default function VerifyOTP() {
         <Text style={styles.orange}>Resend</Text>
       </Text>
 
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity style={styles.button} onPress={() => router.push("/newpassword")}>
         <Text style={styles.buttonText}>Verify OTP</Text>
       </TouchableOpacity>
 

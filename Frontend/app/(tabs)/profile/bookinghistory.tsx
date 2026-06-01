@@ -28,7 +28,7 @@ export default function BookingHistoryScreen() {
       price: "$ 20.50",
       status: "upcoming",
       hoursLeft: 26,
-      image: require("../../../assets/images/booking.png.png"),
+      image: require("../../../assets/images/booking.png"),
     },
     {
       id: "2",
@@ -40,7 +40,7 @@ export default function BookingHistoryScreen() {
       price: "$ 20.50",
       status: "upcoming",
       hoursLeft: 10,
-      image: require("../../../assets/images/booking.png.png"),
+      image: require("../../../assets/images/booking.png"),
     },
      {
       id: "3",
@@ -52,7 +52,7 @@ export default function BookingHistoryScreen() {
       price: "$ 20.50",
       status: "upcoming",
       hoursLeft: 10,
-      image: require("../../../assets/images/booking.png.png"),
+      image: require("../../../assets/images/booking.png"),
     },
      {
       id: "4",
@@ -64,7 +64,7 @@ export default function BookingHistoryScreen() {
       price: "$ 20.50",
       status: "upcoming",
       hoursLeft: 10,
-      image: require("../../../assets/images/booking.png.png"),
+      image: require("../../../assets/images/booking.png"),
     },
   ];
 

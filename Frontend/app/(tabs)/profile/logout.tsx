@@ -7,7 +7,7 @@ export default function LogoutScreen() {
 
   const handleLogout = () => {
     // 👉 yahan baad mein backend token clear hoga
-    router.replace("/(tabs)");
+    router.replace("/(auth)/landingpage");
   };
 
   return (

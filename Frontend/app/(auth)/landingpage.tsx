@@ -1,7 +1,10 @@
 import React from "react";
 import { View, Text, ImageBackground, Image, TouchableOpacity, StyleSheet } from "react-native";
+import { useRouter } from "expo-router";
 
 export default function LandingPage() {
+  const router = useRouter();
+
   return (
     <ImageBackground
   source={require("../../assets/images/signup.png")}
@@ -24,12 +27,12 @@ export default function LandingPage() {
         </Text>
 
         {/* Signup Button */}
-        <TouchableOpacity style={styles.signupBtn}>
+        <TouchableOpacity style={styles.signupBtn} onPress={() => router.push("/signup")}>
           <Text style={styles.signupText}>Sign Up</Text>
         </TouchableOpacity>
 
         {/* Login Button */}
-        <TouchableOpacity style={styles.loginBtn}>
+        <TouchableOpacity style={styles.loginBtn} onPress={() => router.push("/login")}>
           <Text style={styles.loginText}>Login</Text>
         </TouchableOpacity>
 

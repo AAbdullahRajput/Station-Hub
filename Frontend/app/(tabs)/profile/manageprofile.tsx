@@ -13,6 +13,7 @@ import {
 import { LinearGradient } from "expo-linear-gradient";
 import * as ImagePicker from "expo-image-picker";
 import { Ionicons, Feather } from "@expo/vector-icons";
+import Bottomnav from "@/components/Bottomnav";
 
 export default function ManageProfileScreen() {
   const [name, setName] = useState("John Doe");
@@ -229,54 +230,7 @@ export default function ManageProfileScreen() {
         </View>
       </ScrollView>
 
-      {/* BOTTOM TAB */}
-
-      <View style={styles.bottomTab}>
-        <TouchableOpacity style={styles.tabItem}>
-          <Ionicons
-            name="home-outline"
-            size={22}
-            color="#9CA3AF"
-          />
-          <Text style={styles.inactiveText}>Home</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.tabItem}>
-          <Ionicons
-            name="calendar-outline"
-            size={22}
-            color="#9CA3AF"
-          />
-          <Text style={styles.inactiveText}>Booking</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.tabItem}>
-          <Ionicons
-            name="heart-outline"
-            size={22}
-            color="#9CA3AF"
-          />
-          <Text style={styles.inactiveText}>Favorite</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.tabItem}>
-          <Ionicons
-            name="construct-outline"
-            size={22}
-            color="#9CA3AF"
-          />
-          <Text style={styles.inactiveText}>Services</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.tabItem}>
-          <Ionicons
-            name="person"
-            size={22}
-            color="#FF7A45"
-          />
-          <Text style={styles.activeText}>Profile</Text>
-        </TouchableOpacity>
-      </View>
+      <Bottomnav />
     </SafeAreaView>
   );
 }
@@ -421,39 +375,5 @@ const styles = StyleSheet.create({
     color: "#FF7A45",
     fontWeight: "600",
     fontSize: 15,
-  },
-
-  /* TAB BAR */
-
-  bottomTab: {
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    right: 0,
-    height: 78,
-    backgroundColor: "#fff",
-    borderTopWidth: 1,
-    borderTopColor: "#F3F4F6",
-    flexDirection: "row",
-    justifyContent: "space-around",
-    alignItems: "center",
-    paddingBottom: 8,
-  },
-
-  tabItem: {
-    alignItems: "center",
-  },
-
-  inactiveText: {
-    fontSize: 11,
-    color: "#9CA3AF",
-    marginTop: 4,
-  },
-
-  activeText: {
-    fontSize: 11,
-    color: "#FF7A45",
-    marginTop: 4,
-    fontWeight: "600",
   },
 });

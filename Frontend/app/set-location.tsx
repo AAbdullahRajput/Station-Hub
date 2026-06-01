@@ -23,7 +23,7 @@ export default function SetLocationScreen() {
       {/* Logo */}
       <View style={styles.logoBox}>
         <Image
-          source={require("../../assets/images/Logo.png")}
+          source={require("../assets/images/Logo.png")}
           style={styles.logo}
         />
       </View>
@@ -44,10 +44,10 @@ export default function SetLocationScreen() {
         car wash around you
       </Text>
 
-      {/* Main Button */}
+      {/* Main Button - Use Current Location */}
       <TouchableOpacity
         style={styles.locationBtn}
-        onPress={() => router.push("/ChooseLocation")}
+        onPress={() => router.push("/choose-location")}
       >
         <Ionicons
           name="location-sharp"
@@ -69,7 +69,7 @@ export default function SetLocationScreen() {
 
       {/* Manual Link */}
       <TouchableOpacity
-        onPress={() => router.push("/ChooseLocation")}
+        onPress={() => router.push("/choose-location")}
       >
         <Text style={styles.manualText}>
           or set your location manually
@@ -87,13 +87,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 25,
   },
+
   logoBox: {
     alignItems: "center",
     marginBottom: 15,
-  },
-
-  logoColumn: {
-    marginBottom: 20,
   },
 
   logo: {

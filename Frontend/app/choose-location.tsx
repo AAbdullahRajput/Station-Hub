@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import MapView from "react-native-maps";
 import { Ionicons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
 import * as Location from "expo-location";
 
 export default function ChooseLocationScreen() {
+  const router = useRouter();
   const [location, setLocation] = useState<{
     latitude: number;
     longitude: number;
@@ -32,6 +34,11 @@ export default function ChooseLocationScreen() {
       console.log(error);
       alert("Could not get location");
     }
+  };
+
+  const handleConfirmLocation = () => {
+    // After location is confirmed, go to home tabs
+    router.replace("/(tabs)");
   };
 
   return (
@@ -62,7 +69,7 @@ export default function ChooseLocationScreen() {
 
         <Text style={styles.address}>
           {location
-            ? `${location.latitude}, ${location.longitude}`
+            ? `${location.latitude.toFixed(4)}, ${location.longitude.toFixed(4)}`
             : "Getting your location..."}
         </Text>
 
@@ -78,7 +85,10 @@ export default function ChooseLocationScreen() {
           • Brookside Car Care
         </Text>
 
-        <TouchableOpacity style={styles.confirmBtn}>
+        <TouchableOpacity 
+          style={styles.confirmBtn}
+          onPress={handleConfirmLocation}
+        >
           <Text style={styles.confirmText}>
             Confirm Location
           </Text>
@@ -99,14 +109,15 @@ const styles = StyleSheet.create({
 
   button: {
     position: "absolute",
-    top: 60,
-    alignSelf: "center",
+    top: 50,
+    right: 20,
+    backgroundColor: "#ff7a00",
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#ff7a00",
-    paddingVertical: 12,
-    paddingHorizontal: 18,
+    paddingHorizontal: 15,
+    paddingVertical: 10,
     borderRadius: 25,
+    zIndex: 100,
   },
 
   buttonText: {
@@ -118,49 +129,51 @@ const styles = StyleSheet.create({
   bottomSheet: {
     position: "absolute",
     bottom: 0,
-    width: "100%",
+    left: 0,
+    right: 0,
     backgroundColor: "#fff",
-    borderTopLeftRadius: 25,
-    borderTopRightRadius: 25,
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
     padding: 20,
-    elevation: 10,
+    maxHeight: "50%",
   },
 
   title: {
     fontSize: 18,
     fontWeight: "700",
-    marginBottom: 5,
+    marginBottom: 10,
   },
 
   address: {
     fontSize: 14,
-    color: "#444",
+    color: "#666",
     marginBottom: 15,
   },
 
   subTitle: {
-    fontSize: 16,
-    fontWeight: "700",
+    fontSize: 13,
+    fontWeight: "600",
+    marginTop: 10,
     marginBottom: 8,
   },
 
   item: {
-    fontSize: 14,
-    color: "#555",
-    marginLeft: 10,
+    fontSize: 12,
+    color: "#333",
+    marginBottom: 5,
   },
 
   confirmBtn: {
     backgroundColor: "#ff7a00",
     paddingVertical: 14,
-    borderRadius: 12,
-    marginTop: 20,
+    borderRadius: 10,
     alignItems: "center",
+    marginTop: 15,
   },
 
   confirmText: {
     color: "#fff",
     fontWeight: "700",
-    fontSize: 16,
+    fontSize: 14,
   },
 });

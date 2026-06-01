@@ -9,8 +9,11 @@ import {
   StatusBar,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
+import Bottomnav from "@/components/Bottomnav";
 
 export default function ServicesScreen() {
+  const router = useRouter();
   const [activeTab, setActiveTab] = useState("premium");
 
   const services = [1, 2, 3, 4];
@@ -43,7 +46,7 @@ export default function ServicesScreen() {
 
         {/* HEADER */}
         <View style={styles.header}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => router.back()}>
             <Ionicons name="arrow-back" size={24} color="#000" />
           </TouchableOpacity>
 
@@ -152,33 +155,7 @@ export default function ServicesScreen() {
         ))}
       </ScrollView>
 
-      {/* BOTTOM NAV */}
-      <View style={styles.bottomNav}>
-        <TouchableOpacity style={styles.navItem}>
-          <Ionicons name="home" size={22} color="#fff" />
-          <Text style={styles.navText}>Home</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.navItem}>
-          <Ionicons name="book" size={22} color="#fff" />
-          <Text style={styles.navText}>Booking</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.navItem}>
-          <Ionicons name="heart" size={22} color="#fff" />
-          <Text style={styles.navText}>Favorites</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.navItem}>
-          <Ionicons name="construct" size={22} color="#fff" />
-          <Text style={styles.navText}>Services</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.navItem}>
-          <Ionicons name="person" size={22} color="#fff" />
-          <Text style={styles.navText}>Profile</Text>
-        </TouchableOpacity>
-      </View>
+      <Bottomnav />
     </View>
   );
 }
