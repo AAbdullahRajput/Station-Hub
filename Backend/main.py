@@ -2,6 +2,9 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from routes import auth
 from routes import profile
+from routes import stations       
+from routes import bookings   
+
 app = FastAPI(
     title="Station Hub API",
     description="Backend API for Station Hub - Transport Booking App",
@@ -18,6 +21,8 @@ app.add_middleware(
 
 app.include_router(auth.router)
 app.include_router(profile.router)
+app.include_router(stations.router)
+app.include_router(bookings.router) 
 
 
 @app.get("/")
