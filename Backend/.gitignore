@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+*.pyo
+.env
+config/serviceAccountKey.json
+venv/
+.venv/
+*.egg-info/
+dist/
+build/
+.DS_Store

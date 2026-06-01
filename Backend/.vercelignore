@@ -1,0 +1,15 @@
+venv/
+venv
+.venv/
+.env
+.env.*
+config/serviceAccountKey.json
+*.pyc
+__pycache__/
+*.db
+*.sqlite3
+.DS_Store
+.vscode/
+.idea/
+node_modules/
+.pip-wheel-metadata/
