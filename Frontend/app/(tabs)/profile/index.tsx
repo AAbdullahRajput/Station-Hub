@@ -56,7 +56,7 @@ export default function ProfileScreen() {
             style={styles.menuItem}
             onPress={() => router.push("/(tabs)/profile/bookinghistory")}
           >
-            <Ionicons name="history" size={20} color="#FF7A45" />
+            <Ionicons name="time-outline" size={20} color="#FF7A45" />
             <View style={styles.menuText}>
               <Text style={styles.menuTitle}>Booking History</Text>
               <Text style={styles.menuSubtitle}>View past bookings</Text>
