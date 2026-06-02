@@ -7,15 +7,82 @@ import {
   TouchableOpacity,
   Image,
   ScrollView,
+  Alert,
+  ActivityIndicator,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+const API_BASE = "http://192.168.18.87:8000";
 
 export default function SignupScreen() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [fullName, setFullName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [toast, setToast] = useState({ visible: false, message: "", type: "success" });
   const router = useRouter();
+
+  const showToast = (message: string) => {
+  setToast({ visible: true, message, type: "success" });
+  setTimeout(() => {
+    setToast({ visible: false, message: "", type: "success" });
+    router.replace("/login");
+  }, 2000);
+};
+
+const showError = (message: string) => {
+  setToast({ visible: true, message, type: "error" });
+  setTimeout(() => {
+    setToast({ visible: false, message: "", type: "success" });
+  }, 2500);
+};
+
+  const handleSignup = async () => {
+    if (!fullName || !phone || !email || !password || !confirmPassword) {
+      showError("Please fill in all fields");
+      return;
+    }
+    if (password !== confirmPassword) {
+      showError("Passwords do not match");
+      return;
+    }
+    if (password.length < 6) {
+      showError("Password must be at least 6 characters");
+      return;
+    }
+    setLoading(true);
+    try {
+      const response = await fetch(`${API_BASE}/auth/register`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          full_name: fullName,
+          phone: phone,
+          email: email,
+          password: password,
+        }),
+      });
+      const data = await response.json();
+      if (response.ok) {
+        await AsyncStorage.setItem("token", data.token);
+        await AsyncStorage.setItem("user", JSON.stringify(data.user));
+        showToast("Account Created Successfully!");
+      } else {
+        showError(data.detail || "Signup failed");
+      }
+    } catch (error) {
+      showError("Cannot connect to server");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <LinearGradient
@@ -40,6 +107,8 @@ export default function SignupScreen() {
             placeholder="Enter your full name"
             placeholderTextColor="#999"
             style={styles.input}
+            value={fullName}
+            onChangeText={setFullName}
           />
         </View>
 
@@ -51,6 +120,8 @@ export default function SignupScreen() {
             placeholderTextColor="#999"
             keyboardType="phone-pad"
             style={styles.input}
+            value={phone}
+            onChangeText={setPhone}
           />
         </View>
 
@@ -61,22 +132,25 @@ export default function SignupScreen() {
             placeholder="Enter your E-mail Address"
             placeholderTextColor="#999"
             keyboardType="email-address"
+            autoCapitalize="none"
             style={styles.input}
+            value={email}
+            onChangeText={setEmail}
           />
         </View>
 
         {/* PASSWORD */}
         <View style={styles.inputContainer}>
           <Text style={styles.label}>Password</Text>
-
           <View style={styles.passwordBox}>
             <TextInput
               placeholder="********"
               placeholderTextColor="#999"
               secureTextEntry={!showPassword}
               style={styles.input}
+              value={password}
+              onChangeText={setPassword}
             />
-
             <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
               <Ionicons
                 name={showPassword ? "eye-outline" : "eye-off-outline"}
@@ -90,15 +164,15 @@ export default function SignupScreen() {
         {/* CONFIRM PASSWORD */}
         <View style={styles.inputContainer}>
           <Text style={styles.label}>Confirm Password</Text>
-
           <View style={styles.passwordBox}>
             <TextInput
               placeholder="********"
               placeholderTextColor="#999"
               secureTextEntry={!showConfirm}
               style={styles.input}
+              value={confirmPassword}
+              onChangeText={setConfirmPassword}
             />
-
             <TouchableOpacity onPress={() => setShowConfirm(!showConfirm)}>
               <Ionicons
                 name={showConfirm ? "eye-outline" : "eye-off-outline"}
@@ -110,17 +184,22 @@ export default function SignupScreen() {
         </View>
 
         {/* BUTTON */}
-        <TouchableOpacity style={styles.button} onPress={() => router.replace("/set-location")}>
-          <Text style={styles.buttonText}>Sign Up</Text>
+        <TouchableOpacity
+          style={[styles.button, loading && { opacity: 0.7 }]}
+          onPress={handleSignup}
+          disabled={loading}
+        >
+          {loading ? (
+            <ActivityIndicator color="#fff" />
+          ) : (
+            <Text style={styles.buttonText}>Sign Up</Text>
+          )}
         </TouchableOpacity>
 
         {/* LOGIN */}
         <Text style={styles.loginText}>
           Already a user?{" "}
-          <Text
-            style={styles.login}
-           onPress={() => router.push("/login")}
-          >
+          <Text style={styles.login} onPress={() => router.push("/login")}>
             Log In
           </Text>
         </Text>
@@ -132,6 +211,16 @@ export default function SignupScreen() {
         </Text>
 
       </ScrollView>
+
+      {/* TOAST */}
+      {toast.visible && (
+  <View style={[styles.toast, { backgroundColor: toast.type === "error" ? "#e74c3c" : "#ff8a00" }]}>
+    <Text style={styles.toastText}>
+      {toast.type === "error" ? "✕ " : "✓ "}{toast.message}
+    </Text>
+  </View>
+)}
+
     </LinearGradient>
   );
 }
@@ -182,13 +271,13 @@ const styles = StyleSheet.create({
   },
 
   passwordBox: {
-  flexDirection: "row",
-  alignItems: "center",
-  borderBottomWidth: 1,
-  borderBottomColor: "#ffb37a",
-  width: "100%",
-  justifyContent: "space-between",
-},
+    flexDirection: "row",
+    alignItems: "center",
+    borderBottomWidth: 1,
+    borderBottomColor: "#ffb37a",
+    width: "100%",
+    justifyContent: "space-between",
+  },
 
   button: {
     backgroundColor: "#ff8a00",
@@ -226,5 +315,22 @@ const styles = StyleSheet.create({
 
   link: {
     color: "#ff7a00",
+  },
+
+  toast: {
+    position: "absolute",
+    bottom: 40,
+    alignSelf: "center",
+    backgroundColor: "#ff8a00",
+    paddingHorizontal: 25,
+    paddingVertical: 12,
+    borderRadius: 25,
+    elevation: 10,
+  },
+
+  toastText: {
+    color: "#fff",
+    fontWeight: "700",
+    fontSize: 14,
   },
 });

@@ -8,19 +8,68 @@ import {
   Image,
   KeyboardAvoidingView,
   Platform,
+  Alert,
+  ActivityIndicator,
 } from "react-native";
 import { useRouter } from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as WebBrowser from "expo-web-browser";
 import * as Google from "expo-auth-session/providers/google";
 import * as AuthSession from "expo-auth-session";
 
 WebBrowser.maybeCompleteAuthSession();
 
+const API_BASE = "http://192.168.18.87:8000";
+
 export default function Login() {
   const router = useRouter();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [toast, setToast] = useState({ visible: false, message: "", type: "success" });
+
+  const showToast = (message: string) => {
+  setToast({ visible: true, message, type: "success" });
+  setTimeout(() => {
+    setToast({ visible: false, message: "", type: "success" });
+    router.replace("/set-location");
+  }, 2000);
+};
+
+const showError = (message: string) => {
+  setToast({ visible: true, message, type: "error" });
+  setTimeout(() => {
+    setToast({ visible: false, message: "", type: "success" });
+  }, 2500);
+};
+
+  const handleLogin = async () => {
+    if (!email || !password) {
+      showError("Please enter email and password");
+      return;
+    }
+    setLoading(true);
+    try {
+      const response = await fetch(`${API_BASE}/auth/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+      const data = await response.json();
+      if (response.ok) {
+        await AsyncStorage.setItem("token", data.token);
+        await AsyncStorage.setItem("user", JSON.stringify(data.user));
+        showToast("Success, Welcome Back!");
+      } else {
+        showError(data.detail || "Login failed");
+      }
+    } catch (error) {
+      showError("Cannot connect to server");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const redirectUri = AuthSession.makeRedirectUri({
     scheme: "stationhubapp",
@@ -28,7 +77,6 @@ export default function Login() {
 
   console.log("Google redirect URI:", redirectUri);
 
-  // ✅ GOOGLE AUTH
   const [request, response, promptAsync] = Google.useAuthRequest({
     androidClientId: "971946675746-ur3nn6fo2tng6n9hqpervji0c31baf83.apps.googleusercontent.com",
     scopes: ["profile", "email"],
@@ -90,10 +138,15 @@ export default function Login() {
 
         {/* LOGIN BUTTON */}
         <TouchableOpacity
-          style={styles.loginBtn}
-          onPress={() => router.replace("/set-location")}
+          style={[styles.loginBtn, loading && { opacity: 0.7 }]}
+          onPress={handleLogin}
+          disabled={loading}
         >
-          <Text style={styles.loginText}>Log In</Text>
+          {loading ? (
+            <ActivityIndicator color="#fff" />
+          ) : (
+            <Text style={styles.loginText}>Log In</Text>
+          )}
         </TouchableOpacity>
 
         {/* OR */}
@@ -124,9 +177,20 @@ export default function Login() {
         </Text>
 
       </View>
+
+      {/* TOAST */}
+      {toast.visible && (
+      <View style={[styles.toast, { backgroundColor: toast.type === "error" ? "#e74c3c" : "#FF7A00" }]}>
+        <Text style={styles.toastText}>
+          {toast.type === "error" ? "✕ " : "✓ "}{toast.message}
+        </Text>
+      </View>
+    )}
+
     </KeyboardAvoidingView>
   );
 }
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -237,5 +301,22 @@ const styles = StyleSheet.create({
   link: {
     color: "#FF7A00",
     fontWeight: "bold",
+  },
+
+  toast: {
+    position: "absolute",
+    bottom: 40,
+    alignSelf: "center",
+    backgroundColor: "#FF7A00",
+    paddingHorizontal: 25,
+    paddingVertical: 12,
+    borderRadius: 25,
+    elevation: 10,
+  },
+
+  toastText: {
+    color: "#fff",
+    fontWeight: "700",
+    fontSize: 14,
   },
 });
