@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -11,13 +11,24 @@ import {
 import { LinearGradient } from "expo-linear-gradient";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function ProfileScreen() {
   const router = useRouter();
+  const [user, setUser] = useState({ full_name: "User", email: "", profile_image: "" });
+
+  useEffect(() => {
+    const loadUser = async () => {
+      const stored = await AsyncStorage.getItem("user");
+      if (stored) setUser(JSON.parse(stored));
+    };
+    loadUser();
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
+
         {/* GRADIENT BACKGROUND */}
         <LinearGradient
           colors={["#FF7A45", "#FF9366"]}
@@ -28,16 +39,21 @@ export default function ProfileScreen() {
           {/* PROFILE CARD */}
           <View style={styles.profileCard}>
             <Image
-              source={require("../../../assets/images/johndoe.png")}
+              source={
+                user.profile_image
+                  ? { uri: user.profile_image }
+                  : require("../../../assets/images/johndoe.png")
+              }
               style={styles.avatar}
             />
-            <Text style={styles.name}>John Doe</Text>
-            <Text style={styles.email}>johndoe@example.com</Text>
+            <Text style={styles.name}>{user.full_name}</Text>
+            <Text style={styles.email}>{user.email}</Text>
           </View>
         </LinearGradient>
 
         {/* MENU ITEMS */}
         <View style={styles.menuContainer}>
+
           {/* MANAGE PROFILE */}
           <TouchableOpacity
             style={styles.menuItem}
@@ -56,7 +72,7 @@ export default function ProfileScreen() {
             style={styles.menuItem}
             onPress={() => router.push("/(tabs)/profile/bookinghistory")}
           >
-            <Ionicons name="history" size={20} color="#FF7A45" />
+            <Ionicons name="time-outline" size={20} color="#FF7A45" />
             <View style={styles.menuText}>
               <Text style={styles.menuTitle}>Booking History</Text>
               <Text style={styles.menuSubtitle}>View past bookings</Text>
@@ -89,6 +105,7 @@ export default function ProfileScreen() {
             </View>
             <Ionicons name="chevron-forward" size={20} color="#999" />
           </TouchableOpacity>
+
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -129,7 +146,7 @@ const styles = StyleSheet.create({
 
   email: {
     fontSize: 14,
-    color: "#ffff",
+    color: "#fff",
     marginTop: 5,
   },
 

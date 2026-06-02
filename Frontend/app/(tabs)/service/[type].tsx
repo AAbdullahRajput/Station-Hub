@@ -28,22 +28,10 @@ export default function ServicesScreen() {
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#FFF4EC" />
 
-      {/* WHOLE SCREEN SCROLL */}
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: 100 }}
+        contentContainerStyle={{ paddingBottom: 100, paddingHorizontal: 16, paddingTop: 40 }}
       >
-        {/* STATUS BAR */}
-        <View style={styles.statusBar}>
-          <Text style={styles.time}>9:41</Text>
-
-          <View style={styles.statusIcons}>
-            <Ionicons name="cellular" size={14} color="#000" />
-            <Ionicons name="wifi" size={14} color="#000" />
-            <Ionicons name="battery-full" size={14} color="#000" />
-          </View>
-        </View>
-
         {/* HEADER */}
         <View style={styles.header}>
           <TouchableOpacity onPress={() => router.back()}>
@@ -64,20 +52,10 @@ export default function ServicesScreen() {
             <TouchableOpacity
               key={tab}
               onPress={() => setActiveTab(tab)}
-              style={[
-                styles.tab,
-                activeTab === tab && styles.activeTab,
-              ]}
+              style={[styles.tab, activeTab === tab && styles.activeTab]}
             >
-              <Text
-                style={[
-                  styles.tabText,
-                  activeTab === tab && styles.activeTabText,
-                ]}
-              >
-                {tab === "addons"
-                  ? "Add-ons"
-                  : tab.charAt(0).toUpperCase() + tab.slice(1)}
+              <Text style={[styles.tabText, activeTab === tab && styles.activeTabText]}>
+                {tab === "addons" ? "Add-ons" : tab.charAt(0).toUpperCase() + tab.slice(1)}
               </Text>
             </TouchableOpacity>
           ))}
@@ -90,63 +68,33 @@ export default function ServicesScreen() {
               source={require("../../../assets/images/service1.png")}
               style={styles.image}
             />
-
             <View style={styles.cardContent}>
               <Text style={styles.title}>{getTitle()}</Text>
+              <Text style={styles.subtitle}>Riverside Detailing</Text>
 
-              <Text style={styles.subtitle}>
-                Riverside Detailing
-              </Text>
-
-              {/* INFO */}
               <View style={styles.infoRow}>
                 <View style={styles.infoItem}>
-                  <Ionicons
-                    name="location-outline"
-                    size={14}
-                    color="#666"
-                  />
-                  <Text style={styles.infoText}>
-                    0.35 mi away
-                  </Text>
+                  <Ionicons name="location-outline" size={14} color="#666" />
+                  <Text style={styles.infoText}>0.35 mi away</Text>
                 </View>
-
                 <View style={styles.infoItem}>
-                  <Ionicons
-                    name="star"
-                    size={14}
-                    color="#FF8C42"
-                  />
+                  <Ionicons name="star" size={14} color="#FF8C42" />
                   <Text style={styles.infoText}>4.0</Text>
                 </View>
-
                 <View style={styles.infoItem}>
-                  <Ionicons
-                    name="time-outline"
-                    size={14}
-                    color="#666"
-                  />
-                  <Text style={styles.infoText}>
-                    20-30 min
-                  </Text>
+                  <Ionicons name="time-outline" size={14} color="#666" />
+                  <Text style={styles.infoText}>20-30 min</Text>
                 </View>
               </View>
 
-              {/* PRICE + BUTTONS */}
               <View style={styles.bottomRow}>
                 <Text style={styles.price}>$20.50</Text>
-
                 <View style={styles.btnRow}>
                   <TouchableOpacity style={styles.scheduleBtn}>
-                    <Text style={styles.scheduleText}>
-                      Schedule
-                    </Text>
+                    <Text style={styles.scheduleText}>Schedule</Text>
                   </TouchableOpacity>
-
                   <TouchableOpacity style={styles.viewBtn}>
-                    <Text style={styles.viewText}>
-                      View Detail
-                    </Text>
+                    <Text style={styles.viewText}>View Detail</Text>
                   </TouchableOpacity>
                 </View>
               </View>
@@ -160,36 +108,11 @@ export default function ServicesScreen() {
   );
 }
 
-/* ====================== STYLES ====================== */
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#FFF4EC",
-    paddingTop: 40,
-    paddingHorizontal: 16,
   },
-
-  /* STATUS BAR */
-
-  statusBar: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginBottom: 10,
-  },
-
-  time: {
-    fontSize: 14,
-    fontWeight: "600",
-    color: "#000",
-  },
-
-  statusIcons: {
-    flexDirection: "row",
-    gap: 6,
-  },
-
-  /* HEADER */
 
   header: {
     flexDirection: "row",
@@ -209,8 +132,6 @@ const styles = StyleSheet.create({
     height: 34,
     borderRadius: 17,
   },
-
-  /* TABS */
 
   tabContainer: {
     flexDirection: "row",
@@ -240,8 +161,6 @@ const styles = StyleSheet.create({
   activeTabText: {
     color: "#fff",
   },
-
-  /* CARD */
 
   card: {
     flexDirection: "row",
@@ -293,8 +212,6 @@ const styles = StyleSheet.create({
     color: "#666",
   },
 
-  /* PRICE + BUTTONS */
-
   bottomRow: {
     justifyContent: "space-between",
   },
@@ -336,29 +253,5 @@ const styles = StyleSheet.create({
     color: "#FF8C42",
     fontSize: 12,
     fontWeight: "600",
-  },
-
-  /* BOTTOM NAV */
-
-  bottomNav: {
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    right: 0,
-    height: 75,
-    backgroundColor: "#F56809",
-    flexDirection: "row",
-    justifyContent: "space-around",
-    alignItems: "center",
-  },
-
-  navItem: {
-    alignItems: "center",
-  },
-
-  navText: {
-    color: "#fff",
-    fontSize: 10,
-    marginTop: 3,
   },
 });

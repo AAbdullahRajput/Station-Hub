@@ -31,9 +31,9 @@ export default function ServicesScreen() {
       <StatusBar barStyle="dark-content" backgroundColor="#FFF4EC" />
 
       <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: 100 }}
-      >
+  showsVerticalScrollIndicator={false}
+  contentContainerStyle={{ paddingBottom: 100, paddingHorizontal: 16, paddingTop: 40 }}
+>
         {/* HEADER */}
         <View style={styles.header}>
           <TouchableOpacity onPress={() => router.back()}>
@@ -136,11 +136,9 @@ export default function ServicesScreen() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: "#FFF4EC",
-    paddingTop: 40,
-    paddingHorizontal: 16,
-  },
+  flex: 1,
+  backgroundColor: "#FFF4EC",
+},
 
   header: {
     flexDirection: "row",

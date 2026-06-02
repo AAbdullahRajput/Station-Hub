@@ -37,9 +37,8 @@ export default function ChooseLocationScreen() {
   };
 
   const handleConfirmLocation = () => {
-    // After location is confirmed, go to home tabs
-    router.replace("/(tabs)");
-  };
+  router.replace("/(tabs)/Home/home");
+};
 
   return (
     <View style={styles.container}>
