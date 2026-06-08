@@ -4,14 +4,7 @@ import { Ionicons } from "@expo/vector-icons";
 export default function TabLayout() {
   return (
     <Tabs
-<<<<<<< HEAD
-  initialRouteName="Home/home"
-  screenOptions={{
-    headerShown: false,
-    tabBarStyle: { display: "none" },
-  }}
->
-=======
+      initialRouteName="Home/home"
       screenOptions={{
         headerShown: false,
         tabBarStyle: {
@@ -19,7 +12,6 @@ export default function TabLayout() {
         },
       }}
     >
->>>>>>> 6266b48e64abb29bc526f070252cc591d00039c0
       <Tabs.Screen
         name="index"
         options={{

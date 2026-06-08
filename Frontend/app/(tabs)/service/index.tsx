@@ -24,7 +24,7 @@ export default function ServicesScreen() {
     addons: "Add-ons Detail",
   };
 
-  const services = [1, 2, 3, 4];
+  const services = [1, 2, 3, 4,5];
 
   return (
     <View style={styles.container}>
