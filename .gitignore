@@ -1,4 +1,3 @@
-@"
 node_modules/
 .expo/
 tsconfig.json
@@ -6,4 +5,3 @@ serviceAccountKey.json
 .env
 __pycache__/
 *.pyc
-"@ | Out-File -FilePath "D:\Station Hub\.gitignore" -Encoding utf8
