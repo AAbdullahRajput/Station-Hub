@@ -1,81 +1,99 @@
-# 🚉 Station Hub
+<div align="center">
 
-> A modern, responsive web app built with React + Vite, featuring a sleek dark mode experience.
+# 📱 Station Hub App
 
-[![React](https://img.shields.io/badge/React-Vite-61DAFB?logo=react&logoColor=white)](https://reactjs.org/)
-[![Vite](https://img.shields.io/badge/bundler-Vite-646CFF?logo=vite&logoColor=white)](https://vitejs.dev/)
+> A React Native (Expo) mobile app for discovering nearby travel stations and booking seats on the go.
+
+[![Expo](https://img.shields.io/badge/Mobile-Expo-000020?logo=expo&logoColor=white)](https://expo.dev/)
+[![React Native](https://img.shields.io/badge/React%20Native-Expo%20Router-61DAFB?logo=react&logoColor=white)](https://reactnative.dev/)
+[![Firebase](https://img.shields.io/badge/Backend-Firebase-FFCA28?logo=firebase&logoColor=white)](https://firebase.google.com/)
 [![License](https://img.shields.io/badge/license-MIT-blue)](#license)
+
+</div>
 
 ---
 
 ## 📖 About
 
-**Station Hub** is a React-powered web application focused on a clean, intuitive user experience — complete with a fully implemented dark mode across the navbar, sidebar, and core UI components.
+**Station Hub App** is the passenger-facing mobile app of the Station Hub platform. It lets users discover nearby travel stations based on their location, browse station details and services, and book seats for a trip — all from a clean, easy-to-use mobile interface.
 
 ---
 
 ## ✨ Features
 
-- 🌗 **Dark Mode** — Seamless light/dark theme toggle across navbar and sidebar
-- ⚡ **Fast & Lightweight** — Powered by Vite for instant dev server startup and HMR
-- 📱 **Responsive Design** — Optimized layout across devices
-- 🧩 **Component-Based Architecture** — Clean, maintainable React structure
+- 🔐 **Authentication** — Secure sign up / login with JWT-based sessions
+- 📍 **Location-Based Discovery** — Find nearby stations using device location
+- 🗺️ **Set/Choose Location** — Manually set or change location for more relevant results
+- 🚏 **Station Browsing** — View station details, amenities, and available services
+- 🎫 **Seat Booking** — Book seats with from/to location, travel date, time, and seat count
+- 🎬 **Onboarding & Splash Flow** — Smooth first-launch experience for new users
+- 👤 **Profile Management** — View and update personal info
+- ⚙️ **Settings** — Manage app preferences
 
 ---
 
 ## 🛠️ Tech Stack
 
-| Layer       | Technology |
-|-------------|------------|
-| Frontend    | React      |
-| Build Tool  | Vite       |
-| Styling     | CSS        |
-
----
-
-## 🚀 Getting Started
-
-Clone the repository and install dependencies:
-
-```bash
-git clone https://github.com/AAbdullahRajput/Station-Hub-Project.git
-cd Station-Hub-Project
-npm install
-```
-
-### Available Scripts
-
-#### `npm run dev`
-Starts the Vite development server with hot module reloading.
-Open the local URL shown in your terminal (usually [http://localhost:5173](http://localhost:5173)).
-
-#### `npm run build`
-Builds the app for production into the `dist` folder.
-
-#### `npm run preview`
-Serves the production build locally for a final check before deployment.
-
----
-
-## 🔐 Security Note
-
-This project follows secure configuration practices — sensitive files such as API keys and service credentials (e.g. `google-services.json`) are excluded via `.gitignore` and never committed to version control.
+| Layer        | Technology                          |
+|--------------|---------------------------------------|
+| Framework    | React Native + Expo (Expo Router)     |
+| Navigation   | React Navigation (bottom tabs)        |
+| Auth Backend | FastAPI + Firebase Admin SDK          |
+| Storage      | AsyncStorage (local session caching)  |
+| Location     | expo-location                         |
+| Build/Deploy | EAS Build                             |
 
 ---
 
 ## 📂 Project Structure
 
 ```
-Station-Hub-Project/
-├── public/          # Static assets
-├── src/             # Application source code
-│   ├── components/  # Navbar, Sidebar, and UI components
-│   ├── App.jsx       # Root component
-│   └── main.jsx      # Entry point
-├── package.json
-├── vite.config.js
-└── README.md
+Station Hub App/
+└── Frontend/
+    ├── app/
+    │   ├── (auth)/         # Login & signup screens
+    │   ├── (tabs)/          # Main tab navigation screens
+    │   ├── onboarding/      # First-launch onboarding flow
+    │   ├── splash/          # Animated splash screen
+    │   ├── set-location.tsx
+    │   ├── choose-location.tsx
+    │   └── index.tsx
+    ├── components/          # Reusable UI (BottomNav, themed components, etc.)
+    ├── constants/           # Theme configuration
+    ├── hooks/               # Custom hooks (color scheme, theme color)
+    └── utils/firebase.ts    # Firebase client setup
 ```
+
+---
+
+## 🚀 Getting Started
+
+```bash
+git clone https://github.com/AAbdullahRajput/Station-Hub-Project.git
+cd "Station Hub App/Frontend"
+npm install
+npx expo start
+```
+
+Scan the QR code with the **Expo Go** app, or run on an emulator:
+
+```bash
+npx expo start --android
+# or
+npx expo start --ios
+```
+
+### Building for Production
+
+```bash
+eas build --platform android
+```
+
+---
+
+## 🔐 Security Note
+
+Sensitive files such as `google-services.json` and Firebase credentials are excluded via `.gitignore` and should never be committed to version control. If a key is ever accidentally exposed, revoke it immediately and scrub it from git history.
 
 ---
 
@@ -91,4 +109,4 @@ This project is licensed under the MIT License.
 
 ---
 
-<p align="center">Built with ⚡ React + Vite</p>
+<p align="center">📱 Built with React Native + Expo</p>
